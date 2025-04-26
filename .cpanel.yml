@@ -1,0 +1,7 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/bpskotam/ws.bpskotamalang.id
+    - /bin/cp -R . $DEPLOYPATH # Copies all project files
+    - cd $DEPLOYPATH
+    - npm install
