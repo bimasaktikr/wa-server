@@ -5,6 +5,8 @@ const cors = require('cors');
 const app = express();
 const port = 3000;
 
+const API_KEY = '@kuncirahasiawhatsappserverbpskotamalang3573';
+
 app.use(cors());
 app.use(express.json());
 
@@ -18,7 +20,32 @@ const client = new Client({
     }
 });
 
-client.on('qr', (qr) => {
+
+// Middleware to check API Key
+function checkApiKey(req, res, next) {
+    const apiKey = req.headers['x-api-key'];
+
+    if (apiKey !== API_KEY) {
+        return res.status(401).json({ error: 'Unauthorized - Invalid API Key' });
+    }
+
+    next(); // lanjut ke route berikutnya
+}
+
+app.get('/', (req, res) => {
+    res.send(`
+        <html>
+            <head><title>WA Server</title></head>
+            <body>
+                <h1>🟢 WA Server is running!</h1>
+                <p><a href="/status">Check Status</a> | <a href="/qr">QR Code</a></p>
+            </body>
+        </html>
+    `);
+});
+
+
+client.on('qr', checkApiKey , (qr) => {
     console.log('QR generated');
     qrCode = qr;
 });
@@ -41,7 +68,7 @@ client.on('disconnected', (reason) => {
 client.initialize();
 
 // === GET QR Code ===
-app.get('/qr', (req, res) => {
+app.get('/qr', checkApiKey, (req, res) => {
     if (qrCode) {
         res.json({ qr: qrCode });
     } else {
@@ -50,7 +77,7 @@ app.get('/qr', (req, res) => {
 });
 
 // === GET Status ===
-app.get('/status', (req, res) => {
+app.get('/status', checkApiKey, (req, res) => {
     let status = 'DISCONNECTED';
     let clientInfo = null;
 
@@ -71,7 +98,7 @@ app.get('/status', (req, res) => {
 });
 
 // === Test Message API (optional) ===
-app.post('/send-message', async (req, res) => {
+app.post('/send-message', checkApiKey , async (req, res) => {
     const { number, message } = req.body;
 
     if (!number || !message) {

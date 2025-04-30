@@ -1,6 +1,0 @@
-2025/04/23-14:49:24.351 a350 Reusing MANIFEST C:\Users\lapto\Documents\00. Application\wa-server\.wwebjs_auth\session\Default\Local Storage\leveldb/MANIFEST-000001
-2025/04/23-14:49:24.364 a350 Recovering log #10
-2025/04/23-14:49:24.365 a350 Reusing old log C:\Users\lapto\Documents\00. Application\wa-server\.wwebjs_auth\session\Default\Local Storage\leveldb/000010.log 
-2025/04/24-04:05:58.981 4a8 Level-0 table #14: started
-2025/04/24-04:05:58.988 4a8 Level-0 table #14: 14680 bytes OK
-2025/04/24-04:05:58.990 4a8 Delete type=0 #10
